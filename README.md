@@ -83,8 +83,25 @@ Stored for `RERO_RESULT_TTL`: run metadata, validated result, counts, timing, ga
 or logged: bearer or run tokens, prompts, tool payloads, the analyst note, raw model output. Tests scan the
 database file and captured logs for this. Expired rows are purged at startup and on each start request.
 
-## Tests
+## Test evidence (latest)
 
-Unit and provider contract tests only (config, auth, schemas and examples, idempotency, tenant isolation,
-retention, graph behaviour, gateway adapter, structural no-write checks). They show the code matches the contract
-on fakes; they do not measure recommendation quality.
+Unit and provider contract tests only, all on fakes (a fake reconcile-ai internal API and a fake gateway). They show the
+code matches the contract; they do not measure recommendation quality. Run: `pytest -q` and `ruff check .` (see Run).
+**143 tests, ruff clean**, CI green. Register ids are in the platform repo (`evidence/EVIDENCE_REGISTER.md`).
+
+| Feature | How it was tested | Result | Evidence |
+|---|---|---|---|
+| Contract C schemas | Schemas and valid/invalid examples validated; fixtures checked | 7 schemas, 25 examples green | E-31, [R1](docs/testing/FEATURE_TESTING_GUIDE.md#r1-contract-schemas-and-examples) |
+| Service JWT auth, fail-fast config | Missing, malformed, wrong-aud/role, non-RS256 tokens; bad settings | All refused as designed; fakes | E-31, [R2](docs/testing/FEATURE_TESTING_GUIDE.md#r2-service-jwt-auth-and-config) |
+| Idempotent runs | Same key twice, changed input, other tenant | 202 then 200 with one run; 409 on changed input | E-31, [R3](docs/testing/FEATURE_TESTING_GUIDE.md#r3-idempotent-runs) |
+| No sensitive storage, TTL purge | Scan database file and logs; purge and restart tests | No tokens, prompts or payloads found | E-31, [R4](docs/testing/FEATURE_TESTING_GUIDE.md#r4-retention-and-no-sensitive-storage) |
+| Fixed graph, tool budget, deadline | Fake model, concurrent budget test | Atomic budget, deadline, fail-closed on crash | E-31, [R5](docs/testing/FEATURE_TESTING_GUIDE.md#r5-fixed-graph-tool-budget-and-deadline) |
+| Gateway adapter | Fake gateway, replies checked against Contract B | Unknown outcome = exactly one request, no retry | E-31, [R6](docs/testing/FEATURE_TESTING_GUIDE.md#r6-gateway-adapter-and-unknown-outcome) |
+| No write paths | Structural tests on HTTP clients | Two clients, GET only, no write route mocked | E-31, [R7](docs/testing/FEATURE_TESTING_GUIDE.md#r7-structural-no-write-paths) |
+| Q3.7 RERO keep/cut evaluation | Paid, approved, real gateway, 28 cases, same day | **CUT**: C1-C3 fail (root cause 26/28 vs 28/28), C4-C6 pass; $0.0145 | [R8](docs/testing/FEATURE_TESTING_GUIDE.md#r8-q37-keepcut-evaluation) |
+
+| Repo | CI run | Commit |
+|---|---|---|
+| rero | `ci` #2 (fakes) | `b2ba078` |
+
+Detailed guide (tests per feature, commands, failure modes, interview questions): [docs/testing/FEATURE_TESTING_GUIDE.md](docs/testing/FEATURE_TESTING_GUIDE.md).
