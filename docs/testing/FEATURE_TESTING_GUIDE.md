@@ -31,7 +31,7 @@ changes.
 | [R5](#r5-fixed-graph-tool-budget-and-deadline) | Fixed graph, tool budget, deadline | `test_graph.py` |
 | [R6](#r6-gateway-adapter-and-unknown-outcome) | Gateway adapter, unknown outcome | `test_gateway_model.py` |
 | [R7](#r7-structural-no-write-paths) | Structural no-write paths | `test_no_write_paths.py` |
-| [R8](#r8-q37-keepcut-evaluation) | Q3.7 keep/cut evaluation | pending |
+| [R8](#r8-q37-keepcut-evaluation) | Q3.7 keep/cut evaluation | E-32, done, CUT |
 
 ## R1 Contract schemas and examples
 
@@ -177,5 +177,4 @@ and a test that fails if another HTTP client appears.
 
 ## R8 Q3.7 keep/cut evaluation
 
-Status: **done 2026-11-18, decision CUT (E-32).** Paid run (approved), both engines on gpt-4o-mini through the real ai-gateway, knowledge off for both, same day. C1 fail (HRD-002: RERO sent a wrong cause to L1 where the baseline chose manual review), C2 fail (root cause 26/28 vs baseline 28/28; McNemar p = 0.50, not significant), C3 fail (evidence recall 23/24 vs 24/24); C4 pass (cost 1.34x), C5 pass (p95 6522 vs 5460 ms), C6 pass (no budget overrun, no duplicate runs, no unknown outcomes). Spend 0.0145 USD from the gateway ledger. RERO stays disabled by default; the Q1/Q2 three-service platform is the final shape. Interview point: the rule was frozen before the code and the negative result is published as it stands. Full report: `reconcile-ai/docs/proof/q3-7-rero-keep-cut-2026-11-18.md`. Original note: The evaluation rule was frozen before any Q3 code, the default decision is
-CUT, and this section will record the run date, numbers and decision when the result is in.
+Status: **done 2026-11-18, decision CUT (E-32).** Paid run (approved), both engines on gpt-4o-mini through the real ai-gateway, knowledge off for both, same day. C1 fail (HRD-002: RERO sent a wrong cause to L1 where the baseline chose manual review), C2 fail (root cause 26/28 vs baseline 28/28; McNemar p = 0.50, not significant), C3 fail (evidence recall 23/24 vs 24/24); C4 pass (cost 1.34x), C5 pass (p95 6522 vs 5460 ms), C6 pass (no budget overrun, no duplicate runs, no unknown outcomes). Spend 0.0145 USD from the gateway ledger. RERO stays disabled by default; the Q1/Q2 three-service platform is the final shape. Interview point: the rule was frozen before the code and the negative result is published as it stands. Full report: `reconcile-ai/docs/proof/q3-7-rero-keep-cut-2026-11-18.md`. The evaluation rule was frozen before any Q3 code (reconcile-ai `docs/adr/RERO_EVALUATION_RULE.md`).
