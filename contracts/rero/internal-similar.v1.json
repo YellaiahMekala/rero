@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/internal-similar.v1.json",
+  "title": "GET /internal/rero/v1/jobs/{jobId}/similar-breaks 200 body (v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["items"],
+  "properties": {
+    "items": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["breakRef", "rootCauseCategory", "resolvedAt"],
+        "properties": {
+          "breakRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "rootCauseCategory": { "enum": ["TIMING_DIFFERENCE", "FX_RATE_DIFFERENCE", "FEE_OR_CHARGE", "DUPLICATE_ENTRY", "MISSING_ENTRY", "DATA_ENTRY_ERROR", "PARTIAL_SETTLEMENT", "UNKNOWN"] },
+          "resolvedAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

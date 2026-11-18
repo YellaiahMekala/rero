@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-gateway.local/schemas/chat-response.v1.json",
+  "title": "POST /api/v1/chat 200 response body (v1)",
+  "description": "Mirrors gateway-api ChatResponse.java (null fields are omitted). Blocked and failed calls use error.v1.json instead.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["invocationId", "correlationId", "status"],
+  "properties": {
+    "invocationId": { "type": "string", "format": "uuid" },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "status": { "enum": ["OK", "FALLBACK_OK", "CACHE_HIT_EXACT", "CACHE_HIT_SEMANTIC", "IDEMPOTENT_REPLAY", "CACHE_DEGRADED"] },
+    "output": { "type": "string" },
+    "usage": {
+      "type": "object", "additionalProperties": false, "required": ["inputTokens", "outputTokens", "source"],
+      "properties": {
+        "inputTokens": { "type": "integer", "minimum": 0 },
+        "outputTokens": { "type": "integer", "minimum": 0 },
+        "source": { "enum": ["PROVIDER_REPORTED", "ESTIMATED"] }
+      }
+    },
+    "replayOf": { "type": "string", "format": "uuid", "description": "Present only when status is IDEMPOTENT_REPLAY: the original invocationId." },
+    "cache": { "enum": ["L1", "L2", "SEMANTIC", "DEGRADED"] },
+    "risk": { "type": "string", "description": "Risk action applied (for example ANNOTATE). Absent when nothing was flagged." }
+  }
+}

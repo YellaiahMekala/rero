@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rero"
+version = "0.1.0"
+description = "RERO: bounded recommendation run (conditional experiment, Contract C)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.163.2",
+  "pydantic==2.14.3",
+  "pydantic-settings==2.16.3",
+  "langgraph==1.2.22",
+  "httpx==0.28.1",
+  "PyJWT[crypto]==2.15.1",
+  "uvicorn==0.54.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest==9.2.0",
+  "pytest-asyncio==1.5.0",
+  "jsonschema==4.26.0",
+  "respx==0.23.1",
+  "asgi-lifespan==2.1.0",
+  "ruff==0.17.5",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC"]

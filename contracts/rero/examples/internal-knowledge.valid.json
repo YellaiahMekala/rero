@@ -1,0 +1,10 @@
+{
+  "outcome": "OK",
+  "procedures": [
+    {
+      "ref": "kb:proc-timing",
+      "title": "Timing differences",
+      "text": "Masked procedure text."
+    }
+  ]
+}

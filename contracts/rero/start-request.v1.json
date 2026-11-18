@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/start-request.v1.json",
+  "title": "POST /v1/recommendations request body (v1)",
+  "description": "Contract C section 1. The body never carries a tenant; the tenant comes from the service JWT. Header Idempotency-Key must equal jobId.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["jobId", "analystNote", "limits", "runToken"],
+  "properties": {
+    "jobId": { "type": "string", "format": "uuid" },
+    "analystNote": { "type": "string", "maxLength": 2000, "description": "Already PII-masked by reconcile-ai. May be empty." },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxToolCalls", "maxModelCalls", "deadlineSeconds"],
+      "properties": {
+        "maxToolCalls": { "type": "integer", "minimum": 1, "maximum": 20 },
+        "maxModelCalls": { "const": 2 },
+        "deadlineSeconds": { "type": "integer", "minimum": 5, "maximum": 120 }
+      }
+    },
+    "runToken": {
+      "type": "string",
+      "maxLength": 4096,
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$",
+      "description": "Compact JWS minted by reconcile-ai. RERO forwards it and never verifies, logs or stores it. Excluded from the idempotency hash."
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/internal-break.v1.json",
+  "title": "GET /internal/rero/v1/jobs/{jobId}/break 200 body (v1)",
+  "description": "Masked break summary served by reconcile-ai. Contract C does not fix the type of variance; a decimal string or a JSON number are both accepted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["breakRef", "variance", "currency", "sourceA", "sourceB", "status"],
+  "properties": {
+    "breakRef": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "variance": {
+      "oneOf": [
+        { "type": "number" },
+        { "type": "string", "pattern": "^-?[0-9]+(\\.[0-9]+)?$" }
+      ]
+    },
+    "currency": { "type": "string", "pattern": "^[A-Z]{3}$" },
+    "sourceA": { "type": "string", "maxLength": 256 },
+    "sourceB": { "type": "string", "maxLength": 256 },
+    "status": { "type": "string", "minLength": 1, "maxLength": 64 }
+  }
+}

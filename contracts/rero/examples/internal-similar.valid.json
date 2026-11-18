@@ -1,0 +1,9 @@
+{
+  "items": [
+    {
+      "breakRef": "BRK-0000",
+      "rootCauseCategory": "TIMING_DIFFERENCE",
+      "resolvedAt": "2026-11-01T09:00:00Z"
+    }
+  ]
+}

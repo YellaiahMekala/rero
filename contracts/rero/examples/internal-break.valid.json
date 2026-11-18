@@ -1,0 +1,8 @@
+{
+  "breakRef": "BRK-0001",
+  "variance": "125.40",
+  "currency": "USD",
+  "sourceA": "ledger",
+  "sourceB": "custodian",
+  "status": "OPEN"
+}

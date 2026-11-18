@@ -1,0 +1,4 @@
+{
+  "code": "IDEMPOTENCY_KEY_REUSED",
+  "message": "The idempotency key was already used with different input."
+}

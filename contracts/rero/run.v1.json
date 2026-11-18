@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/run.v1.json",
+  "title": "Run (v1): body of 200/202 from POST and 200 from GET /v1/recommendations/{runId}",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["runId", "jobId", "status", "stage", "failureCode", "toolCallsUsed", "modelCallsUsed", "gatewayInvocationIds", "startedAt", "finishedAt", "result"],
+  "properties": {
+    "runId": { "type": "string", "format": "uuid" },
+    "jobId": { "type": "string", "format": "uuid" },
+    "status": { "enum": ["RUNNING", "SUCCEEDED", "FAILED"] },
+    "stage": { "enum": ["LOAD_CONTEXT", "RETRIEVE", "DRAFT", "SELF_CHECK", "DONE"] },
+    "failureCode": {
+      "oneOf": [
+        { "type": "null" },
+        { "enum": ["DEADLINE_EXCEEDED", "TOOL_BUDGET_EXCEEDED", "TOOL_UNAVAILABLE", "TOOL_REJECTED", "MODEL_UNAVAILABLE", "MODEL_BLOCKED", "UNKNOWN_OUTCOME", "INVALID_MODEL_OUTPUT", "INVALID_CITATION", "RESTARTED"] }
+      ]
+    },
+    "toolCallsUsed": { "type": "integer", "minimum": 0, "maximum": 20 },
+    "modelCallsUsed": { "type": "integer", "minimum": 0, "maximum": 2 },
+    "gatewayInvocationIds": { "type": "array", "maxItems": 2, "items": { "type": "string", "minLength": 1, "maxLength": 128 } },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "oneOf": [ { "type": "null" }, { "type": "string", "format": "date-time" } ] },
+    "result": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rootCauseCategory", "explanation", "citedChunkIds", "confidence", "selfCheck", "selfCheckReason"],
+          "properties": {
+            "rootCauseCategory": { "enum": ["TIMING_DIFFERENCE", "FX_RATE_DIFFERENCE", "FEE_OR_CHARGE", "DUPLICATE_ENTRY", "MISSING_ENTRY", "DATA_ENTRY_ERROR", "PARTIAL_SETTLEMENT", "UNKNOWN"] },
+            "explanation": { "type": "string", "maxLength": 2000 },
+            "citedChunkIds": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "selfCheck": { "enum": ["PASS", "CHALLENGE"] },
+            "selfCheckReason": { "type": "string", "maxLength": 500 }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "RUNNING" } }, "required": ["status"] },
+      "then": { "properties": { "failureCode": { "type": "null" }, "result": { "type": "null" }, "finishedAt": { "type": "null" } } }
+    },
+    {
+      "if": { "properties": { "status": { "const": "SUCCEEDED" } }, "required": ["status"] },
+      "then": {
+        "properties": { "failureCode": { "type": "null" }, "result": { "type": "object" }, "finishedAt": { "type": "string" }, "stage": { "const": "DONE" } }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "FAILED" } }, "required": ["status"] },
+      "then": { "properties": { "failureCode": { "type": "string" }, "result": { "type": "null" }, "finishedAt": { "type": "string" } } }
+    }
+  ]
+}

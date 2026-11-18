@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-gateway.local/schemas/error.v1.json",
+  "title": "Error body for every non-2xx response (v1)",
+  "description": "Mirrors gateway-api ApiError.java. Plain application/json, not problem+json. Null fields are omitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["code", "message", "timestamp"],
+  "properties": {
+    "code": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "message": { "type": "string", "description": "Human-readable; never echoes submitted values." },
+    "correlationId": { "type": "string", "format": "uuid" },
+    "invocationId": { "type": "string", "format": "uuid", "description": "Present when a ledger row exists for this call (or, for IDEMPOTENCY_UNKNOWN_OUTCOME, for the earlier call)." },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "details": { "type": "object", "description": "Identifiers, codes and counts only. Not emitted on /chat today." }
+  }
+}

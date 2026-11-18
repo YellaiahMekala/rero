@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/internal-knowledge.v1.json",
+  "title": "GET /internal/rero/v1/jobs/{jobId}/knowledge?query= 200 body (v1)",
+  "description": "Procedure references are never citable as break evidence (refs start with kb:).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["outcome", "procedures"],
+  "properties": {
+    "outcome": { "enum": ["OK", "EMPTY", "UNAVAILABLE", "REJECTED"] },
+    "procedures": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "title", "text"],
+        "properties": {
+          "ref": { "type": "string", "pattern": "^kb:.+" },
+          "title": { "type": "string", "maxLength": 256 },
+          "text": { "type": "string" }
+        }
+      }
+    }
+  }
+}

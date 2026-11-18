@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.platform.local/rero/internal-evidence.v1.json",
+  "title": "GET /internal/rero/v1/jobs/{jobId}/evidence?query= 200 body (v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["chunks"],
+  "properties": {
+    "chunks": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["chunkId", "source", "text"],
+        "properties": {
+          "chunkId": { "type": "string", "format": "uuid" },
+          "source": { "type": "string", "maxLength": 256 },
+          "text": { "type": "string", "description": "Masked text." }
+        }
+      }
+    }
+  }
+}
