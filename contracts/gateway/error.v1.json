@@ -12,6 +12,6 @@
     "correlationId": { "type": "string", "format": "uuid" },
     "invocationId": { "type": "string", "format": "uuid", "description": "Present when a ledger row exists for this call (or, for IDEMPOTENCY_UNKNOWN_OUTCOME, for the earlier call)." },
     "timestamp": { "type": "string", "format": "date-time" },
-    "details": { "type": "object", "description": "Identifiers, codes and counts only. Not emitted on /chat today." }
+    "details": { "type": "object", "description": "Identifiers, codes and counts only. Emitted on /chat only for SENSITIVITY_BLOCKED: {dataSensitivity: PUBLIC|INTERNAL|RESTRICTED} (the level the ledger row records)." }
   }
 }

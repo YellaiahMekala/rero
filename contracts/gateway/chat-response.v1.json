@@ -21,6 +21,8 @@
     },
     "replayOf": { "type": "string", "format": "uuid", "description": "Present only when status is IDEMPOTENT_REPLAY: the original invocationId." },
     "cache": { "enum": ["L1", "L2", "SEMANTIC", "DEGRADED"] },
-    "risk": { "type": "string", "description": "Risk action applied (for example ANNOTATE). Absent when nothing was flagged." }
+    "risk": { "type": "string", "description": "Risk action applied (for example ANNOTATE). Absent when nothing was flagged." },
+    "dataSensitivity": { "enum": ["PUBLIC", "INTERNAL", "RESTRICTED"], "description": "Added in v1 (additive, optional). The data-sensitivity level recorded on this call's ledger row. Absent for IDEMPOTENT_REPLAY, whose row is not classified." },
+    "firstTokenMs": { "type": "integer", "minimum": 0, "description": "Added in v1 (additive, optional). The ledger row's first_token_ms. Streams only; never present on POST /chat, so absent there." }
   }
 }

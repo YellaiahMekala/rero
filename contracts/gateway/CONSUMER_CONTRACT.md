@@ -52,7 +52,7 @@ Header `X-Correlation-Id` equals the body's `correlationId` (`ChatController.jav
 | `cache` | enum | `L1`, `L2`, `SEMANTIC`, `DEGRADED` when the cache took part | `CacheTier.java` |
 | `risk` | string | risk action applied when something was flagged (for example `ANNOTATE`) | `RiskAction.java` |
 
-Not returned on success: data-sensitivity level, time to first token, cost, model used. They are in the ledger only.
+Returned on success (additive, optional, v1): `dataSensitivity` on `/chat` and on stream `completed`/`error` events (absent on an idempotent replay); `firstTokenMs` on stream final events only (absent if no token was produced). `SENSITIVITY_BLOCKED` errors carry `details.dataSensitivity`. Cost and model used stay in the ledger only.
 
 A same-key, same-body request after completion returns the stored result with `status: IDEMPOTENT_REPLAY` and
 `replayOf`. There is no 202 and no polling.
