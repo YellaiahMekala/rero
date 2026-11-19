@@ -105,3 +105,7 @@ code matches the contract; they do not measure recommendation quality. Run: `pyt
 | rero | `ci` #2 (fakes) | `b2ba078` |
 
 Detailed guide (tests per feature, commands, failure modes, interview questions): [docs/testing/FEATURE_TESTING_GUIDE.md](docs/testing/FEATURE_TESTING_GUIDE.md).
+
+## License and AI use
+
+No open-source license is granted: all rights reserved. Use of this repository for AI or ML training, AI-based analysis or reproduction, or inclusion in datasets is not permitted without written permission: see [AI_USE_POLICY.md](AI_USE_POLICY.md).
